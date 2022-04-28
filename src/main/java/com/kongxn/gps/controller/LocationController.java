@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/emp/*")
+@RequestMapping("/emp/")
 public class LocationController {
 
     private final WebDriverFactory webDriverFactory;

@@ -17,13 +17,24 @@ public class Driver {
 
     private WebDriver webDriver;
     private BrowserMobProxyServer proxyServer;
+    private boolean status = true;
+
+    public Driver(WebDriver webDriver, BrowserMobProxyServer proxyServer) {
+        this.webDriver = webDriver;
+        this.proxyServer = proxyServer;
+    }
 
     public void close(){
+        status = false;
         if (!proxyServer.isStopped()){
             proxyServer.stop();
             webDriver.close();
             webDriver.quit();
         }
+    }
+
+    public boolean isRun(){
+        return status;
     }
 
     public WebElement findElementByXpath(String xpathExpression){

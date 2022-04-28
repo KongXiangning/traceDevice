@@ -17,12 +17,14 @@ import java.net.InetSocketAddress;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Data
 @Component
 @ConfigurationProperties(prefix = "webdriver")
 public class WebDriverFactory {
 
+    private static int portIndex = 0;
     /**
      * 远程游览器地址
      * */
@@ -56,7 +58,14 @@ public class WebDriverFactory {
     }
 
     public Driver instanceProxy() throws MalformedURLException {
-        int port = 10000+random.nextInt(9999);
+        int port = 29900;
+        synchronized (this){
+            if (portIndex <= 99){
+                port += portIndex++;
+            }else {
+                portIndex = 0;
+            }
+        }
         BrowserMobProxyServer proxyServer = new BrowserMobProxyServer();
         proxyServer.start(port);
 

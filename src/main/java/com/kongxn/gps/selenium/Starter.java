@@ -1,24 +1,22 @@
 package com.kongxn.gps.selenium;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 @Component
 public class Starter implements CommandLineRunner {
 
-    private final HuaweiGps huaweiGps;
+    private final TraceGps traceGps;
 
-    public Starter(HuaweiGps huaweiGps) {
-        this.huaweiGps = huaweiGps;
+    public Starter(TraceGps traceGps) {
+        this.traceGps = traceGps;
     }
+
 
     @Override
     public void run(String... args) throws Exception {
         System.out.println("starter");
-        huaweiGps.init();
-//        Connection connection = new Connection();
-//        connection.init();
+        traceGps.start();
         System.out.println("end");
     }
 }

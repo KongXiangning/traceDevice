@@ -1,4 +1,4 @@
-package com.kongxn.gps.entity;
+package com.kongxn.gps.huawei.entity;
 
 import lombok.Data;
 
