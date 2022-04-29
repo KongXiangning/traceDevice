@@ -1,11 +1,8 @@
 package com.kongxn.gps.entity;
 
-import com.kongxn.gps.huawei.entity.QueryLocationEntity;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Data

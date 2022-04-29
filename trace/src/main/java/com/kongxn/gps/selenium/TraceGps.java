@@ -2,15 +2,11 @@ package com.kongxn.gps.selenium;
 
 import com.kongxn.gps.entity.AccountEntity;
 import com.kongxn.gps.repository.AccountRepository;
-import com.kongxn.gps.selenium.api.SeleniumAppInterface;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Component;
 
 import java.net.MalformedURLException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.ThreadPoolExecutor;
