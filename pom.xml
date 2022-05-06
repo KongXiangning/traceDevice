@@ -5,7 +5,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>trace</module>
-        <module>baidu</module>
+        <module>map</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

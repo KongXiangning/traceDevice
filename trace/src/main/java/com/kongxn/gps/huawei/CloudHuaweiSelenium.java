@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.kongxn.gps.entity.AccountEntity;
 import com.kongxn.gps.selenium.AbstractSeleniumAppImpl;
 import com.kongxn.gps.selenium.Driver;
+import com.kongxn.gps.selenium.TraceGps;
 import com.kongxn.gps.webclient.ServiceRequestManager;
 import lombok.extern.log4j.Log4j2;
 import net.lightbody.bmp.core.har.Har;
@@ -11,10 +12,7 @@ import net.lightbody.bmp.core.har.HarCookie;
 import net.lightbody.bmp.core.har.HarEntry;
 import net.lightbody.bmp.core.har.HarNameValuePair;
 import net.lightbody.bmp.proxy.CaptureType;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 
 import java.time.Duration;
 import java.util.List;
@@ -79,16 +77,23 @@ public class CloudHuaweiSelenium extends AbstractSeleniumAppImpl {
         try {
             driver.getProxyServer().newHar("getGps");
             driver.findElementByXpath("//div[@class='warpHome mobile']").click();
-            Thread.sleep(30000);
+            Thread.sleep(10000);
             List<WebElement> elements = driver.findElementByXpaths("//div[@class='device_list_item']//span[@class='device_name']");
             if (elements != null && elements.size() > 0){
-                for (WebElement element : elements) {
-                    log.info("device_name:{}",element.getText());
-                    if (accountEntity.getDeviceId().equals(element.getText())){
-                        element.click();
+                WebElement element = elements.get(0);
+                element.click();
+                for (int index = 0; index < elements.size();) {
+                    if (driver.findElementByXpath("//div[@class='header_name_item']") == null){
+                        log.error("选择设备失败");
+                        return false;
+                    }else if (driver.findElementByXpath("//div[@class='header_name_item']").getText().equals(accountEntity.getDeviceId())){
+                        return true;
+                    }else {
+                        driver.findElementByXpath("//div[@class='current_device']//span[@class='device_name']").click();
+                        List<WebElement> tmps = driver.findElementByXpaths("//div[@class='device_list_item']//span[@class='device_name']");
+                        tmps.get(++index).click();
                     }
                 }
-                Thread.sleep(10000);
             }
             if (driver.findElementByXpath("//div[@class='header_name_item']") == null){
                 log.error("选择设备失败");
@@ -96,7 +101,8 @@ public class CloudHuaweiSelenium extends AbstractSeleniumAppImpl {
             }
             return true;
         }catch (Exception e){
-            e.printStackTrace();
+            log.error(e);
+            TraceGps.restart(accountEntity);
             return false;
         }
     }

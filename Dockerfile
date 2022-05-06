@@ -4,8 +4,8 @@ WORKDIR /usr/local/source/
 COPY . /usr/local/source/
 RUN mvn clean install -Dmaven.test.skip=true
 WORKDIR /application
-RUN cp /usr/local/source/target/gps.jar gps.jar
-RUN java -Djarmode=layertools -jar gps.jar extract
+RUN cp /usr/local/source/trace/target/traceDevice.jar traceDevice.jar
+RUN java -Djarmode=layertools -jar traceDevice.jar extract
 
 FROM openjdk:11-jdk-slim as runtime
 WORKDIR /usr/local/

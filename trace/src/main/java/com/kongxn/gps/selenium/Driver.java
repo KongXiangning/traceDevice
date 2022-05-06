@@ -27,10 +27,11 @@ public class Driver {
     public void close(){
         status = false;
         if (!proxyServer.isStopped()){
-            proxyServer.stop();
             webDriver.close();
             webDriver.quit();
+            proxyServer.stop();
         }
+        TraceGps.startThread.release();
     }
 
     public boolean isRun(){

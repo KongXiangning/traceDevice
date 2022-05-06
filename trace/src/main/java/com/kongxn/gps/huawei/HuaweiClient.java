@@ -78,12 +78,8 @@ public class HuaweiClient extends AbstractWebClient {
                         startHeartBeat = false;
                         startHeartBeatSP.release();
                     }
-                    if (errorCount.get() > 0){
-                        errorCount.decrementAndGet();
-                    }
                 } catch (ExecutionException | InterruptedException | TimeoutException e) {
                     log.error(e);
-                    errorCount.incrementAndGet();
                 }
             }
         });
@@ -100,7 +96,6 @@ public class HuaweiClient extends AbstractWebClient {
                     Thread.sleep(61*1000);
                 } catch (InterruptedException e) {
                     log.error(e);
-                    errorCount.incrementAndGet();
                 }
             }
         });
@@ -121,7 +116,6 @@ public class HuaweiClient extends AbstractWebClient {
                     }
                 } catch (InterruptedException e) {
                     log.error(e);
-                    errorCount.incrementAndGet();
                 }
             }
         });

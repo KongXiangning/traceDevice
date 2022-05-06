@@ -7,10 +7,7 @@ import org.springframework.stereotype.Component;
 
 import java.net.MalformedURLException;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.SynchronousQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 @Component
 @Log4j2
@@ -21,6 +18,7 @@ public class TraceGps {
 
     private static final ExecutorService executorService = new ThreadPoolExecutor(2, 2, 1, TimeUnit.MINUTES,new SynchronousQueue<Runnable>());
     private static final SynchronousQueue<AccountEntity> queue = new SynchronousQueue<>();
+    public static Semaphore startThread = new Semaphore(1);
 
     public TraceGps(AccountRepository accountRepository, SeleniumAppFactory seleniumAppFactory) {
         this.accountRepository = accountRepository;
@@ -45,6 +43,7 @@ public class TraceGps {
     public void appStart(){
         while (true){
             try {
+                startThread.tryAcquire(10, TimeUnit.MINUTES);
                 AccountEntity account = queue.take();
                 executorService.execute(() -> {
                     try {
